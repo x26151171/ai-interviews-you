@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#020a18">
+  <meta name="description" content="Rainy Chen — Fintech MSc student with a background in behavioural economics, data science, finance, and design.">
+  <meta property="og:title" content="Rainy Chen | Fintech & Data">
+  <meta property="og:description" content="Combining fintech, data science, behavioural economics, and design to explore how technology and people shape financial decisions.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rainy-chen.github.io/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Rainy Chen | Fintech & Data">
+  <meta name="twitter:description" content="Fintech, data science, behavioural economics, finance, and design.">
+  <!-- Add og:image later: 1200x630 PNG matching dark theme -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='85'%3E%F0%9F%92%A0%3C/text%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <title>Rainy Chen | Fintech & Data</title>
+  <script>
+    try {
+      if (localStorage.getItem("rainy-theme") === "light")
+        document.documentElement.classList.add("light");
+    } catch (_) {}
+  </script>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #020a18;
+      --bg-grad: linear-gradient(170deg,#020a18 0%,#041028 40%,#06142e 70%,#020a18 100%);
+      --surface: rgba(8,24,56,.85);
+      --border: rgba(0,170,255,.12);
+      --border-glow: rgba(0,170,255,.3);
+      --text: #d0e0f0;
+      --text-bright: #e8f0ff;
+      --text-dim: #6888aa;
+      --neon: #00aaff;
+      --cyan: #00e5ff;
+      --green: #00ff88;
+      --amber: #ffaa00;
+      --red: #ff4466;
+      --purple: #aa66ff;
+    }
+    html.light {
+      color-scheme: light;
+      --bg: #edf4fc;
+      --bg-grad: linear-gradient(170deg,#edf4fc 0%,#f7faff 40%,#e7f1ff 70%,#f4f8ff 100%);
+      --surface: rgba(255,255,255,.91);
+      --border: rgba(0,93,160,.17);
+      --border-glow: rgba(0,115,200,.34);
+      --text: #263b55;
+      --text-bright: #10233d;
+      --text-dim: #526c89;
+      --neon: #006fc4;
+      --cyan: #007f99;
+      --green: #087b50;
+      --amber: #9a6200;
+      --red: #c32d4a;
+      --purple: #7441b5;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--bg);
+      color: var(--text);
+      font: 16px/1.65 Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -3;
+      background: var(--bg-grad);
+    }
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      background-image: linear-gradient(var(--border) 1px,transparent 1px),
+        linear-gradient(90deg,var(--border) 1px,transparent 1px);
+      background-size: 60px 60px;
+      opacity: .24;
+    }
+    .orb {
+      position: fixed;
+      z-index: -1;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(100px);
+      opacity: .08;
+      pointer-events: none;
+      animation: orbit 24s ease-in-out infinite alternate;
+    }
+    .orb.one { background: var(--neon); top: 12%; left: -260px; }
+    .orb.two { background: var(--purple); top: 48%; right: -260px; animation-delay: -8s; }
+    .orb.three { background: var(--cyan); bottom: -260px; left: 35%; animation-delay: -15s; }
+    @keyframes orbit {
+      0% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(100px,70px) scale(1.15); }
+      100% { transform: translate(-40px,130px) scale(.9); }
+    }
+    a { color: var(--neon); text-decoration: none; transition: color .2s, text-shadow .2s; }
+    a:hover { color: var(--cyan); text-shadow: 0 0 12px var(--border-glow); }
+    button { font: inherit; }
+    button:focus-visible, a:focus-visible { outline: 2px solid var(--cyan); outline-offset: 4px; }
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .header-inner {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 12px 20px;
+      min-height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .brand { color: var(--text-bright); font-weight: 800; letter-spacing: -.04em; }
+    .header-actions { display: flex; gap: 8px; }
+    .icon-btn {
+      display: grid;
+      place-items: center;
+      width: 40px;
+      height: 40px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: transparent;
+      color: var(--text);
+      cursor: pointer;
+      font-size: 20px;
+      transition: background .2s, border-color .2s;
+    }
+    .icon-btn:hover { background: var(--border); border-color: var(--border-glow); }
+    main { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; padding: 0 20px; }
+    .hero { padding: 100px 0 68px; }
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .16em;
+      margin-bottom: 20px;
+    }
+    .eyebrow::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 12px var(--green);
+    }
+    h1 {
+      margin: 0;
+      color: var(--text-bright);
+      font-size: clamp(3.5rem,10vw,6.5rem);
+      line-height: 1.02;
+      letter-spacing: -.075em;
+      font-weight: 800;
+    }
+    .role {
+      margin: 20px 0 30px;
+      font-size: clamp(1rem,3vw,1.3rem);
+      color: var(--cyan);
+      font-weight: 600;
+    }
+    .hero-statement {
+      max-width: 720px;
+      margin: 0 0 32px;
+      color: var(--text-bright);
+      font-size: clamp(1.35rem,3.8vw,2.2rem);
+      font-weight: 500;
+      line-height: 1.4;
+      letter-spacing: -.035em;
+    }
+    .hero-statement span { color: var(--neon); }
+    .hero-note { color: var(--text-dim); max-width: 570px; margin: 0 0 30px; }
+    .cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 13px 20px;
+      background: var(--neon);
+      color: #031326;
+      border: 1px solid var(--neon);
+      border-radius: 10px;
+      font-weight: 700;
+      transition: transform .2s, box-shadow .2s, background .2s;
+    }
+    .cta:hover { color: #031326; background: var(--cyan); box-shadow: 0 0 28px var(--border-glow); transform: translateY(-2px); text-shadow: none; }
+    .section-list { border-top: 1px solid var(--border); }
+    .section { border-bottom: 1px solid var(--border); }
+    .section-head {
+      display: flex;
+      width: 100%;
+      align-items: center;
+      gap: 18px;
+      padding: 25px 4px;
+      border: 0;
+      background: transparent;
+      color: var(--text-bright);
+      text-align: left;
+      cursor: pointer;
+    }
+    .number {
+      flex: 0 0 36px;
+      width: 36px;
+      height: 36px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--border-glow);
+      border-radius: 50%;
+      color: var(--neon);
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .section-title { flex: 1; font-size: 1.1rem; font-weight: 700; }
+    .toggle-mark { color: var(--cyan); font-size: 24px; font-weight: 400; }
+    .section-head:hover .section-title { color: var(--cyan); }
+    .section-body { display: grid; grid-template-rows: 1fr; opacity: 1; transition: grid-template-rows .35s ease, opacity .25s ease; }
+    .section-body-inner { overflow: hidden; min-height: 0; padding: 0 4px 28px 58px; }
+    .section.closed .section-body { grid-template-rows: 0fr; opacity: 0; }
+    .section.closed .section-body-inner { padding-bottom: 0; }
+    .section p { margin: 0 0 14px; }
+    .section p:last-child { margin-bottom: 0; }
+    .muted { color: var(--text-dim); }
+    .card-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 12px; }
+    .info-card {
+      padding: 18px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+    }
+    .info-card .date { color: var(--neon); font-size: .8rem; font-weight: 700; letter-spacing: .04em; }
+    .info-card h3 { color: var(--text-bright); margin: 8px 0; font-size: 1rem; line-height: 1.45; }
+    .info-card p { color: var(--text-dim); font-size: .9rem; }
+    .tags { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 14px; }
+    .tag { padding: 6px 11px; border-radius: 8px; border: 1px solid var(--border-glow); background: var(--surface); color: var(--cyan); font-size: .85rem; }
+    .contact-panel {
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      background: var(--surface);
+      padding: 24px;
+    }
+    .contact-panel h3 { margin: 0 0 10px; color: var(--text-bright); font-size: 1.2rem; }
+    .contact-panel p { color: var(--text-dim); }
+    footer {
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 42px 20px 30px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--text-dim);
+      font-size: .8rem;
+    }
+    @media (max-width: 560px) {
+      .hero { padding: 76px 0 50px; }
+      .card-grid { grid-template-columns: 1fr; }
+      .section-head { gap: 12px; padding: 21px 0; }
+      .section-body-inner { padding-left: 48px; }
+      footer { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="orb one" aria-hidden="true"></div>
+  <div class="orb two" aria-hidden="true"></div>
+  <div class="orb three" aria-hidden="true"></div>
+
+  <header class="header">
+    <div class="header-inner">
+      <a class="brand" href="#home" aria-label="Rainy Chen home">Rainy Chen<span style="color:var(--neon)">.</span></a>
+      <div class="header-actions">
+        <button class="icon-btn" id="theme-toggle" type="button" title="Toggle light and dark mode" aria-label="Toggle light and dark mode">☀</button>
+        <button class="icon-btn" id="collapse-toggle" type="button" title="Collapse all sections" aria-label="Collapse all sections">⊖</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="home">
+    <section class="hero" aria-labelledby="hero-title">
+      <div class="eyebrow">Learning · Exploring · Building</div>
+      <h1 id="hero-title">Rainy<br>Chen<span style="color:var(--neon)">.</span></h1>
+      <p class="role">Fintech MSc Student · Data & Behaviour</p>
+      <p class="hero-statement">Combining fintech, data science, behavioural economics, and design to explore how <span>technology and people</span> shape financial decisions.</p>
+      <p class="hero-note">An interdisciplinary academic background spanning finance, data, behavioural economics, and arts and design.</p>
+      <a class="cta" href="#contact">Get in touch <span aria-hidden="true">↗</span></a>
+    </section>
+
+    <div class="section-list">
+      <section class="section" id="about">
+        <button class="section-head" type="button" aria-expanded="true" aria-controls="body-about">
+          <span class="number">1</span>
+          <span class="section-title">About Me</span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-body" id="body-about">
+          <div class="section-body-inner">
+            <p>I'm Rainy Chen, currently pursuing an MSc in Fintech at the National College of Ireland. My academic journey connects finance, behavioural economics, data science, and design.</p>
+            <p>I enjoy approaching topics from different perspectives and exploring the relationship between technology, financial decisions, and human behaviour.</p>
+            <p class="muted">My interests include Python, blockchain, and data analysis.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="education">
+        <button class="section-head" type="button" aria-expanded="true" aria-controls="body-education">
+          <span class="number">2</span>
+          <span class="section-title">Education</span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-body" id="body-education">
+          <div class="section-body-inner">
+            <div class="card-grid">
+              <article class="info-card">
+                <span class="date">2026–</span>
+                <h3>MSc in Fintech</h3>
+                <p>National College of Ireland</p>
+              </article>
+              <article class="info-card">
+                <span class="date">2023–2024</span>
+                <h3>MSc in Behavioural Economics and Data Science</h3>
+                <p>University of East Anglia</p>
+              </article>
+              <article class="info-card">
+                <span class="date">2019–2023</span>
+                <h3>BDes in Arts and Design, specialised in design</h3>
+                <p>National Taipei University of Education</p>
+              </article>
+              <article class="info-card">
+                <span class="date">2018–2022</span>
+                <h3>BBA in Finance and Cooperative Management</h3>
+                <p>National Taipei University</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="skills">
+        <button class="section-head" type="button" aria-expanded="true" aria-controls="body-skills">
+          <span class="number">3</span>
+          <span class="section-title">Skills & Interests</span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-body" id="body-skills">
+          <div class="section-body-inner">
+            <p>My listed skills and areas of interest bring together technical, analytical, and financial perspectives.</p>
+            <div class="tags">
+              <span class="tag">Python</span>
+              <span class="tag">Blockchain</span>
+              <span class="tag">Data Analysis</span>
+              <span class="tag">Behavioural Economics</span>
+              <span class="tag">Fintech</span>
+              <span class="tag">Arts & Design</span>
+              <span class="tag">Finance</span>
+            </div>
+            <p class="muted" style="margin-top:20px">Languages: Chinese (Native or Bilingual) · English (Professional Working)</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="approach">
+        <button class="section-head" type="button" aria-expanded="true" aria-controls="body-approach">
+          <span class="number">4</span>
+          <span class="section-title">What I Bring</span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-body" id="body-approach">
+          <div class="section-body-inner">
+            <p><strong style="color:var(--text-bright)">An interdisciplinary perspective.</strong> My studies across fintech, behavioural economics, data science, finance, and design give me different ways to think about a problem.</p>
+            <p><strong style="color:var(--text-bright)">Analytical thinking.</strong> My background in data science and finance informs how I approach data and financial questions.</p>
+            <p><strong style="color:var(--text-bright)">People and technology.</strong> Behavioural economics and design encourage me to consider both human decisions and the systems around them.</p>
+            <p class="muted">These are the perspectives I aim to bring to future projects and work opportunities.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="contact">
+        <button class="section-head" type="button" aria-expanded="true" aria-controls="body-contact">
+          <span class="number">5</span>
+          <span class="section-title">Get in Touch</span>
+          <span class="toggle-mark" aria-hidden="true">−</span>
+        </button>
+        <div class="section-body" id="body-contact">
+          <div class="section-body-inner">
+            <div class="contact-panel">
+              <h3>Let's connect.</h3>
+              <p>I'm interested in connecting with people and exploring work opportunities related to fintech, data, and behavioural economics.</p>
+              <p><a href="https://www.linkedin.com/in/rainy-chen-4336b7427/" target="_blank" rel="noopener noreferrer">Connect with me on LinkedIn ↗</a></p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <span>© <span id="year"></span> Rainy Chen</span>
+    <span>Built with the AI Badge</span>
+  </footer>
+
+  <script>
+    const root = document.documentElement;
+    const themeButton = document.getElementById("theme-toggle");
+    const collapseButton = document.getElementById("collapse-toggle");
+    const sections = [...document.querySelectorAll(".section")];
+
+    function updateThemeButton() {
+      const light = root.classList.contains("light");
+      themeButton.textContent = light ? "☾" : "☀";
+      themeButton.title = light ? "Switch to dark mode" : "Switch to light mode";
+      themeButton.setAttribute("aria-label", themeButton.title);
+    }
+
+    themeButton.addEventListener("click", () => {
+      root.classList.toggle("light");
+      try {
+        localStorage.setItem("rainy-theme", root.classList.contains("light") ? "light" : "dark");
+      } catch (_) {}
+      updateThemeButton();
+    });
+
+    function setSection(section, open) {
+      section.classList.toggle("closed", !open);
+      const button = section.querySelector(".section-head");
+      button.setAttribute("aria-expanded", String(open));
+      section.querySelector(".toggle-mark").textContent = open ? "−" : "+";
+    }
+
+    sections.forEach(section => {
+      const button = section.querySelector(".section-head");
+      button.addEventListener("click", () => {
+        setSection(section, section.classList.contains("closed"));
+        updateCollapseButton();
+      });
+    });
+
+    function updateCollapseButton() {
+      const allOpen = sections.every(section => !section.classList.contains("closed"));
+      collapseButton.textContent = allOpen ? "⊖" : "⊕";
+      collapseButton.title = allOpen ? "Collapse all sections" : "Expand all sections";
+      collapseButton.setAttribute("aria-label", collapseButton.title);
+    }
+
+    collapseButton.addEventListener("click", () => {
+      const shouldOpen = sections.some(section => section.classList.contains("closed"));
+      sections.forEach(section => setSection(section, shouldOpen));
+      updateCollapseButton();
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    updateThemeButton();
+    updateCollapseButton();
+  </script>
+</body>
+</html>
